@@ -20,6 +20,7 @@
   ],
   "scripts": {
     "build": "vite build",
+    "build:example": "vite build example --outDir ../example-dist",
     "dev": "vite example",
     "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
