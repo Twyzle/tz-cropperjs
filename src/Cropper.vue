@@ -604,12 +604,12 @@ defineExpose({
   zoom: (ratio: number): void => zoom(ratio),
   rotate: (degree: number): void => rotate(degree),
 })
-function inSelection(selection: Selection, maxSelection: Selection) {
+function isWithinBounds(selection: Selection, maxSelection: Selection, tolerance = 1): boolean {
   return (
-    selection.x >= maxSelection.x
-    && selection.y >= maxSelection.y
-    && (selection.x + selection.width) <= (maxSelection.x + maxSelection.width)
-    && (selection.y + selection.height) <= (maxSelection.y + maxSelection.height)
+    selection.x >= (maxSelection.x - tolerance)
+    && selection.y >= (maxSelection.y - tolerance)
+    && (selection.x + selection.width) <= (maxSelection.x + maxSelection.width + tolerance)
+    && (selection.y + selection.height) <= (maxSelection.y + maxSelection.height + tolerance)
   )
 }
 function onCropperImageTransform(event: Event) {
@@ -650,7 +650,7 @@ function onCropperImageTransform(event: Event) {
     height: cropperImageRect.height,
   }
 
-  if (!inSelection(selection, maxSelection)) {
+  if (!isWithinBounds(selection, maxSelection)) {
     event.preventDefault()
   }
 }
@@ -659,7 +659,7 @@ function generateUniqueId() {
 }
 function onCropperSelectionChange(event: Event) {
   const customEvent = event as CustomEvent
-  if (!cropperCanvasEl.value) {
+  if (!cropperCanvasEl.value || !cropperSelectionEl.value) {
     return
   }
   const cropperCanvas = cropperCanvasEl.value
@@ -669,38 +669,36 @@ function onCropperSelectionChange(event: Event) {
 
   const cropperCanvasRect = cropperCanvas.getBoundingClientRect()
   const selection = customEvent.detail as Selection
+  let maxSelection: Selection
 
   switch (props.cropperSelectionBoundary) {
     case 'canvas': {
-      const maxSelection: Selection = {
+      maxSelection = {
         x: 0,
         y: 0,
         width: cropperCanvasRect.width,
         height: cropperCanvasRect.height,
-      }
-
-      if (!inSelection(selection, maxSelection)) {
-        event.preventDefault()
       }
       break
     }
     case 'image': {
       const cropperImage = cropperImageEl.value as CropperImage
       const cropperImageRect = cropperImage.getBoundingClientRect()
-      const maxSelection: Selection = {
+      maxSelection = {
         x: cropperImageRect.left - cropperCanvasRect.left,
         y: cropperImageRect.top - cropperCanvasRect.top,
         width: cropperImageRect.width,
         height: cropperImageRect.height,
       }
-
-      if (!inSelection(selection, maxSelection)) {
-        event.preventDefault()
-      }
       break
     }
     default:
       return
+  }
+
+  // Only prevent if selection would go outside bounds
+  if (!isWithinBounds(selection, maxSelection)) {
+    event.preventDefault()
   }
 }
 

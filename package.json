@@ -55,5 +55,13 @@
     "vue": "^3.5.18",
     "vue-eslint-parser": "^10.2.0",
     "vue-tsc": "^3.0.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twyzle/tz-cropperjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/twyzle/tz-cropperjs/issues"
+  },
+  "homepage": "https://github.com/twyzle/tz-cropperjs#readme"
 }
