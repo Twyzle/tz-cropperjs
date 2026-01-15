@@ -2,6 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@twyzle/tz-cropperjs.svg)](https://www.npmjs.com/package/@twyzle/tz-cropperjs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Demo](https://img.shields.io/badge/Demo-Live-brightgreen)](https://twyzle.github.io/tz-cropperjs/)
 
 A modern, feature-rich Vue 3 component wrapper for [CropperJS v2](https://github.com/fengyuanchen/cropperjs). Built with TypeScript and designed for flexibility and ease of use.
 
