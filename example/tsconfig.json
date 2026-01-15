@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true, // Don't output files, just type-check
+    "declaration": false,
+    "emitDeclarationOnly": false
+  },
+  "include": ["**/*.ts", "**/*.vue"],
+  "exclude": []
+}
